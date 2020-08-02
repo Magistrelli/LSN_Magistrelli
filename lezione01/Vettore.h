@@ -34,7 +34,7 @@ class Vett {
 	unsigned int GetDim() const			{return _N;}
 	unsigned int GetUsed() const			{return _used;}
 	double GetComp(unsigned int k) const;
-	double* GetV() const;
+	double* GetV() const				{return _v;}
 	//stampa valori
 	void Print() const;
 	void PrintDebug() const;
@@ -51,12 +51,23 @@ class DataVett: public Vett {
 	DataVett(const DataVett& vett);
 	//distruttore
 	~DataVett();
-	//inserisci dati da file
-	void Read(ifstream&);
-	//risultato con incertezza blocking method (progressive)
+	//ridefinizione operatori
+	DataVett& operator+=(const DataVett& vett);
+	DataVett& operator*=(const double a);
+	DataVett& operator/=(const double a);
+	//funzioni
+	void SumComp(unsigned int k, double value);//v[k]+=value
+	void Read(ifstream&);			//inserisci dati da file
+	void Print(ofstream&) const;		//stampa valori su file
+	//res&err with blocking method (progressive)
 	void StatErrProg(DataVett& res, DataVett& err) const;
-	//stampa valori su file
-	void Print(ofstream&) const;
 };
+
+//ridefinizione operatori
+DataVett operator*(const double a, const DataVett& vett);	//prodotto per uno scalare
+DataVett operator/(const DataVett& vett, const double a);
+DataVett operator*(const DataVett& v1, const DataVett& v2);	//prodotto scalare
+DataVett operator+(const DataVett& v1, const DataVett& v2);	//somma di vettori
+DataVett operator-(const DataVett& v1, const DataVett& v2);
 
 #endif

@@ -34,21 +34,25 @@ Vett& Vett::operator=(const Vett& vett){
 
 //definisce PER LA PRIMA VOLTA la componente k-esima
 void Vett::DefComp(unsigned int k, double value){
-	if (k<_N) {
+	if ((k<_N)&(_used<_N)) {
 		_v[k]=value;
 		_used++;
 	}
-	else {
+	else if (k>=_N) {
 		cerr << endl << "ATTENZIONE!! DefComp: indice fuori dai limiti!!!" << endl;
+		exit(-1);
+	} else {
+		cerr << endl << "ATTENZIONE!! DefComp: superata dimensione massima del vettore!!!" << endl;
 		exit(-1);
 	}
 }
 //modifica la componente k-esima
 void Vett::SetComp(unsigned int k, double value){
 	if (k<_used) _v[k]=value;
-	else if (k<_N)
+	else if (k<_N) {
 		cout << endl << "ATTENZIONE!! SetComp: indice superiore a used!!!" << endl;
-	else {
+		exit(-1);
+	} else {
 		cerr << endl << "ATTENZIONE!! SetComp: indice fuori dai limiti!!!" << endl;
 		exit(-1);
 	}
@@ -65,12 +69,6 @@ double Vett::GetComp(unsigned int k) const{
 		exit (-1);
 	}
 return _v[k];
-}
-//restituisce il puntatore a al vettore
-double* Vett::GetV() const{
-	double *vett = new double [_used];
-	for (unsigned int i=0; i<_used; i++)	{vett[i]=GetComp(i);}
-	return vett;
 }
 
 
@@ -100,6 +98,34 @@ DataVett::DataVett(const DataVett& vett): Vett(vett){};
 //distruttore
 DataVett::~DataVett(){}
 
+//ridefinizione operatori
+DataVett& DataVett::operator+=(const DataVett& vett) {
+    *this=*this+vett;
+    return *this;
+}
+DataVett& DataVett::operator*=(const double a) {
+    *this=a*(*this);
+    return *this;
+}
+DataVett& DataVett::operator/=(const double a) {
+    *this=(*this)/a;
+    return *this;
+}
+
+
+//incremento della componente k di value
+void DataVett::SumComp(unsigned int k, double value) {
+	if (k<_used) _v[k]+=value;
+	else if (k<_N){
+		cout << endl << "ATTENZIONE!! SumComp: indice superiore a used!!!" << endl;
+		exit(-1);
+	} else {
+		cerr << endl << "ATTENZIONE!! SumComp: indice fuori dai limiti!!!" << endl;
+		exit(-1);
+	}
+}
+
+
 //inserisci dati da file
 void DataVett::Read(ifstream& input){
     if (input.fail())
@@ -109,14 +135,13 @@ void DataVett::Read(ifstream& input){
 		input>>_v[_used];
 		_used++;
 	}
-//	if (!(*input).eof())	cout << endl << "ATTENZIONE! Il file non è stato letto completamente" << endl;
     }
 }
 
 
 
 //risultato con incertezza blocking method (progressive)
-//risultato come media deelle singole misure, incertezza come stdDev della media
+//risultato come media delle singole misure, incertezza come stdDev della media
 void DataVett::StatErrProg(DataVett& res, DataVett& err) const{
     double sum=0.,sum2=0.,ave,av2,sigma;
     for(unsigned int i=0; i<GetDim(); i++){
@@ -124,10 +149,10 @@ void DataVett::StatErrProg(DataVett& res, DataVett& err) const{
 	sum2+=pow(GetComp(i),2);
 	ave=sum/(i+1.);
 	av2=sum2/(i+1.);
-	sigma=sqrt((i+1.)/i*(av2-pow(ave,2)));
+	sigma=sqrt((av2-pow(ave,2))/i);
 	res.DefComp(i,ave);
 	if(i==0){err.DefComp(i,0.);}
-	else	{err.DefComp(i,sigma/sqrt(i));}
+	else	{err.DefComp(i,sigma);}
     }
 }
 
@@ -136,3 +161,45 @@ void DataVett::Print(ofstream& output) const{
 	for (unsigned int i=0; i<_used; i++)
 		output << i << ")\t" << _v[i] << endl;
 }
+
+
+
+
+
+//RIDEFINIZIONE OPERATORI
+//prodotto per uno scalare
+DataVett operator*(const double a, const DataVett& vett){
+    DataVett res(vett.GetDim());
+    for (unsigned int i=0; i<vett.GetUsed(); i++) {res.DefComp(i,vett.GetComp(i)*a);}
+    return res;
+}
+DataVett operator/(const DataVett& vett, const double a){return (1./a)*vett;}
+//prodotto scalare
+DataVett operator*(const DataVett& v1, const DataVett& v2){
+    if(v1.GetDim()!=v2.GetDim()){
+	cerr << endl << "ATTENZIONE!! v1*v2: I vettori hanno dimensioni differenti!!!" << endl;
+	exit(-1);
+    }
+    if(v1.GetUsed()!=v2.GetUsed()){
+	cerr << endl << "ATTENZIONE!! v1*v2: I vettori hanno used differenti!!!" << endl;
+	exit(-1);
+    }
+    DataVett res(v1.GetDim());
+    for (unsigned int i=0; i<v1.GetUsed(); i++) {res.DefComp(i,v1.GetComp(i)*v2.GetComp(i));}
+    return res;
+}
+//somma di vettori
+DataVett operator+(const DataVett& v1, const DataVett& v2){
+    if(v1.GetDim()!=v2.GetDim()){
+	cerr << endl << "ATTENZIONE!! v1+v2: I vettori hanno dimensioni differenti!!!" << endl;
+	exit(-1);
+    }
+    if(v1.GetUsed()!=v2.GetUsed()){
+	cerr << endl << "ATTENZIONE!! v1*v2: I vettori hanno used differenti!!!" << endl;
+	exit(-1);
+    }
+    DataVett res(v1.GetDim());
+    for (unsigned int i=0; i<v1.GetUsed(); i++) {res.DefComp(i,v1.GetComp(i)+v2.GetComp(i));}
+    return res;
+}
+DataVett operator-(const DataVett& v1, const DataVett& v2) {return v1+(-1.)*v2;}
