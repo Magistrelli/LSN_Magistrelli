@@ -15,7 +15,7 @@ DataVett sum(Nst),Zero(Nst);	//sum all RW in each block, zero vect
 DataVett Sum(Nst),Sum2(Nst);	//progressive sums for blocking method
 DataVett res(Nst),err(Nst);	//means and errors for each time
 DataVett resC(Nst),erC(Nst);	//continuum case
-double sort,ave,ave2,sMed;	//random number, averages, stdDev of the mean
+double sort,ave,ave2;		//random number, averages
 double theta,phi;		//solid angle's variables
 ofstream output;
 
@@ -49,17 +49,16 @@ for(int k=0; k<N; k++){		//repeat for each of N experiments
     } //ended a block, update global sums for each step
     for(int i=0; i<Nst; i++){
 	ave=sum.GetComp(i)/L;		//sigle block's mean distance(i)^2
-	Sum.SumComp(i,ave);		//sum of dist(i)^2 over blocks
-	Sum2.SumComp(i,ave*ave);	//sum for variance
+	Sum.SumComp(i,sqrt(ave));	//sum of |dist(i)| over blocks
+	Sum2.SumComp(i,ave);		//sum for variance
     }
 }
 for(int i=0; i<Nst; i++){	//final results
-    ave=Sum.GetComp(i)/N;	//mean value of dist(i)^2
-    res.DefComp(i,sqrt(ave));	//exstimate of |dist(i)|
-    ave2=Sum2.GetComp(i)/N;	//mean value of (dist(i)^2)^2
-    sMed=sqrt((ave2-ave*ave)/(N-1.));//statistical error of dist(i)^2
+    ave=Sum.GetComp(i)/N;	//mean value of |dist(i)|
+    res.DefComp(i,ave);
+    ave2=Sum2.GetComp(i)/N;	//mean value of dist(i)^2
     if (i==0){err.DefComp(0,0.);}
-    else     {err.DefComp(i,sMed/(2.*res.GetComp(i)));}//error propagation
+    else    {err.DefComp(i,sqrt((ave2-ave*ave)/(N-1.)));}//stdDev of the mean
 }
 
 //Point2.
@@ -82,17 +81,16 @@ for(int k=0; k<N; k++){
     }
     for(int i=0; i<Nst; i++){
 	ave=sum.GetComp(i)/L;
-	Sum.SumComp(i,ave);
-	Sum2.SumComp(i,ave*ave);
+	Sum.SumComp(i,sqrt(ave));
+	Sum2.SumComp(i,ave);
     }
 }
 for(int i=0; i<Nst; i++){
     ave=Sum.GetComp(i)/N;
-    resC.DefComp(i,sqrt(ave));
+    resC.DefComp(i,ave);
     ave2=Sum2.GetComp(i)/N;
-    sMed=sqrt((ave2-ave*ave)/(N-1.));
     if (i==0){erC.DefComp(0,0.);}
-    else     {erC.DefComp(i,sMed/(2.*resC.GetComp(i)));}
+    else     {erC.DefComp(i,sqrt((ave2-ave*ave)/(N-1.)));}
 }
 
 //writing results
