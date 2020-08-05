@@ -77,8 +77,8 @@ double* Experiment::GetResErr(int iObs) const {
 
 //Effective computation observables' averages
 void Experiment::DoAverages(DataVett stima, int iblk) const {
-    *GlobAv+=stima;
-    *GlobAv2+=stima*stima;
+    *GlobAv+=stima;		//cumulative sum of blocks results
+    *GlobAv2+=stima*stima;	//sum for variance
     for(int i=0; i<m_Props; ++i) {Err->SetComp(i,Error(GlobAv->GetComp(i),GlobAv2->GetComp(i),iblk));}
 }
 //Progressive result-error files printing
@@ -213,7 +213,7 @@ double Error(double sum, double sum2, int iblk){
     double ave,av2,sigma;
     ave=sum/double(iblk);
     av2=sum2/double(iblk);
-    sigma=sqrt((double)iblk/(iblk-1.)*(av2-ave*ave));
+    sigma=sqrt((av2-ave*ave)/(iblk-1.));
     if(iblk==1)	{return 0.;}
-    else	{return sigma/sqrt(iblk-1.);}
+    else	{return sigma;}
 }

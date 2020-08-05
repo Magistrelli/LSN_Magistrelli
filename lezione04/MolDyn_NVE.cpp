@@ -91,12 +91,12 @@ MolDyn::~MolDyn(){
 void MolDyn::Restart(){
     double Tnow,vel=0.;
     V->SetUsed(0);		//re-initialize V
-    Move(X,Delta);//one step of Verlet algorithm, V(t+dt/2), new&now configs
+    Move(X,Delta);//one step of Verlet algorithm but compute V(t+dt/2)
     for(int i=0; i<TotD; ++i) {vel+=pow(V->GetComp(i),2);}
     Tnow=vel/(3.*double(nPart));//exstimate of T(t+dt/2)
     (*V)*=sqrt(Temp/Tnow);	//velocity rescaled with temperature
     *Xold=Pbc(*X-Delta*(*V));	//new x(t) to match temp
-    Reset(1);
+    Reset(1);			//accumulated variables to 0
 }
 
 
@@ -127,6 +127,7 @@ void MolDyn::WriteInstant(int istep, ofstream* OutRes) const{
 
 
 //Move particles with Verlet algorithm (compute V(t+jump/2) with new and Y positions
+//with this method I define stdMove in MolDyn.h
 void MolDyn::Move(DataVett* Y, double jump){
     DataVett Xnew;
     Xnew=2.*(*X)-*Xold;
@@ -145,7 +146,7 @@ void MolDyn::Measure(){
     for (int i=0; i<nPart-1; ++i){	//cycle over pairs of particles
       for (int j=i+1; j<nPart; ++j){
 	dr=0.;
-	for (int k=0; k<DimSp; ++k){	//here I use old configurations [old = r(t)] to be compatible with EKin which uses v(t) => EPot should be computed with r(t)
+	for (int k=0; k<DimSp; ++k){	//use old configurations [old = r(t)] to be compatible with EKin which uses v(t) => EPot should be computed with r(t)
 	    dx=Pbc(Xold->GetComp(DimSp*i+k)-Xold->GetComp(DimSp*j+k));
 	    dr+=dx*dx;
 	}
@@ -180,16 +181,15 @@ void MolDyn::Averages(int iblk, ofstream *OutRes){
 	stima.DefComp(iGr+ibin,gAv/(Rho*nPart*dVr));//g(r)
     }
 
-    DoAverages(stima,iblk);
-    m_Props=iGr;		//write progressive res and err only for V,K
-    WriteAverages(stima,iblk,OutRes);
+    DoAverages(stima,iblk);	//do blocks progressive averages
+    m_Props=iGr;		//write progressive res and err only for V,K,E,T
+    WriteAverages(stima,iblk,OutRes);//write output
     m_Props=n_Props;		//(modified m_Props only for WriteAverages)
 
     if(iblk==1)	{OutRes[iGr] << setw(wd) << "block #" << setw(2*wd) << "bins" << endl << endl;}
     OutRes[iGr]<< setw(wd) << iblk << setw(2*wd);
     for(int i=0; i<nBins; i++)	{OutRes[iGr]<< stima.GetComp(iGr+i) << setw(wd);}
-//  for(int i=0; i<nBins; i++)	{OutRes[iGr]<< Err.GetComp(iGr+i) << setw(wd);}
-    OutRes[iGr] << endl;
+    OutRes[iGr] << endl;	//here I wrote only single blocks results
 }
 
 

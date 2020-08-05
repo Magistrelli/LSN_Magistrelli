@@ -20,9 +20,9 @@ Results[0].open("results/output."+ *state +".epot."+ *iter);
 Results[1].open("results/output."+ *state +".ekin."+ *iter);
 Results[2].open("results/output."+ *state +".etot."+ *iter);
 Results[3].open("results/output."+ *state +".temp."+ *iter);
-Test.SetBurn(Test.GetL()*Test.GetBlk());
+Test.SetBurn(Test.GetL()*Test.GetBlk());//study only instantaneous values
 Test.InstantValues(Results,nobs,10,10);//run simulation, write results each 10 steps
-Test.BoxScale();
+Test.BoxScale();		//position conversion in Box lenght units
 Test.ConfFinalPlus();
 for (int i=0; i<nobs; i++)	{Results[i].close();}
 
