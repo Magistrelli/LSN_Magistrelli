@@ -1,0 +1,12 @@
+LIBS2:= random.o Vettore.o Experiment.o Metropolis.o Hydrogen.o
+CC = g++
+CFLAGS = -Wall -O3 --std=c++11
+
+%.o: %.cpp %.h
+	g++ -c $< ${CFLAGS}
+
+main01.x: main01.C ${LIBS2}
+	g++ $^ -o $@ ${CFLAGS}
+
+clear:
+	rm *.o *~
