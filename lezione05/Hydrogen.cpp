@@ -17,7 +17,7 @@ Hydrogen::Hydrogen(int nlm[3], const DataVett start, Random* rnd , int usegauss)
 }
 
 
-//config new and now are totally different (ip=-1)
+//simmetric T, q=p(new)/p(now), Bohr radius units
 double Hydrogen::qRatio(const DataVett Xnew, int ip) const{
     if(ip!=-1)	{cerr<<endl<<endl<<"Attention! You should cange all the x,y,z particles' coordinates (ip should be -1)!"<<endl<<endl;}
     DataVett Sph1=Spheric(Xnew),Sph2=Spheric(*X);

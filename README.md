@@ -5,6 +5,8 @@ Nelle cartelle delle singole lezioni possono comparire le seguenti librerie:
     random:	per la generazione di numeri casuali, arricchita a partire da quella fornita sul sito Ariel
     Experiment:	contiene oggetti e metodi di base (alcuni virtuali) su cui si basano le successive librerie, più specifiche
     MolDyn_NVE:	libreria a oggetti sviluppata a partire dal codice fornito per simulazioni di MD
+    Metropolis:	derivata da Experiment, contiene oggetti e metodi generici per analizzare sistemi sfruttando l'algoritmo di Metropolis
+    Hydrogen:	derivata da Metropolis, libreria a oggetti per la misura del raggio medio di un atomo di H
 
 
 

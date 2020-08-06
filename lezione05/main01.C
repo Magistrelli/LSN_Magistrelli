@@ -53,7 +53,7 @@ for(int ig=0; ig<2; ig++){		//ig=0 uniform T, ig=1 Gaussian T
   for(int l=0; l<2; l++){		//l=0 GS, l=1 210
     nlm[0]=l+1,nlm[1]=l,nlm[2]=0;
     Metro = new Hydrogen(nlm,start,rnd,ig);
-    Metro->SetBlkSt(N,L);
+    Metro->SetBlkSt(N,L);		//set #blocks, #steps per block
     Metro->SetBurn(nburn);
     Metro->SetParam(params[ig][l]);
 
