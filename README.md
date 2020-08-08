@@ -22,21 +22,10 @@ README lezione04:
 Per produrre i risultati necessari al jupyter notebook basta lanciare main02.sh e main03.sh, che raccolgono una serie di comandi bash per la corretta esecuzione in sequenza dell'insieme di ripetizioni dei tre main necessari a soddisfare le richieste degli esercizi. 
 I file nella cartella frame sono invece stati prodotti con lanci singoli (start.sh e restart.sh sono utili per avere le corrette condizioni iniziali o di ripartenza) del main01.x (nstep=1000) e sono utili per rappresentazioni dinamiche con ovito.
 
-=============================================================================
-=============================================================================
-README lezione06: ANCORA DA SCRIVERE BENE
-Run main01.sh to start from nothing (automatic burn-in) the experiment,i.e. the sampling of the four observables f(T) functions.
-PERCHE' FACCIO RESTART DUE VOLTE SE POI STAMPO TUTTI I FILE .0???????????????
 
-restart.sh restart the simulation 2 times, every time starting from the last configuration of the previus run.
-To change number of restarting change the first line of restart.sh
-In this process the observables' output file are saved for each steps, but only the very final configurations are saved.
-
-To sample only a specific temperature run
-	./main.x i
-and the simulation will start with
-	T_in = 1.5*i/20 + 0.5
-=============================================================================
-=============================================================================
+README lezione06:
+Per produrre i risultati necessari al notebook basta lanciare main01.sh. Questo genera direttamente (dopo un burn-in automatico) tutti i risultati nei due casi (Gibbs e Metropolis) sia in campo magnetico nullo che in campo diverso da zero.
+Per studiare solo la specifica temperatura T_i = 1.5*i/20 + 0.5 si utilizzi il comando './main01.x i res', dove res=0 se si simula tutto da capo, res=nres se si rilancia il programma per la nres+1 volta a partire dai risultati dell'iterazione precedente.
+I due restart_metro.sh e restart_gibbs.sh permettono, impostato correttamente il file di input, di rilanciare automaticamente più volte la simulazione a seguito di un lancio manuale di main01.x (non si può usare main01.sh, i file seed.out verrebbero sovrascritti, così come il file input.dat). Ogni iterazione del programma parte dai risultati di quella precedente. I file di output sono salvati per ogni step, ma le configurazioni finali vengono sovrascritte lasciando solo le ultime. Chiaramente il burn-in non viene rieseguito ogni volta.
+L'indice dei file di output è progressivo e indica il numero dell'iterazione del programma che ha generato i risultati.
 L'indice dei file di burn-in e dei file config rappresenta la temperatura corrisponde secondo la legge T_i = 1.5*i/20 + 0.5
-L'indice dei file di output è progressivo (il programma può essere fatto ripartire più volte partendo dai risultati di una sua iterazione precedente)

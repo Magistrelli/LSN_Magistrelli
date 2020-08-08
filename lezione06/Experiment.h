@@ -25,14 +25,14 @@ class Experiment {
     DataVett *GlobAv,*GlobAv2,*Err;//blocking method
 
     //internal functions
-    void InitVett();
-    void Reset(int iblk);
+    void InitVett();		//dynamic allocation of vectors
+    void Reset(int iblk);	//Reset block accumulators
     void DoAverages(DataVett stima, int iblk) const;
     void WriteAverages(DataVett stima, int iblk, ofstream* OutRes) const;
-    virtual void WriteInstant(int istep, ofstream* OutRes) const {};
+    virtual void WriteInstant(int istep, ofstream* OutRes) const {};//for InstantValues, to be implemented in derived class
     void WriteConf(ofstream&,const int,const int,int) const;//last blocks conf
     void ConfXYZ(const int nconf) const;//Write configuration in .xyz format
-    virtual void Move() =0;
+    virtual void Move() =0;		//single specific algorithm move
     virtual void Measure() =0;		//Properties measurement
     virtual void Averages(int blk, ofstream *OutRes) =0;
 

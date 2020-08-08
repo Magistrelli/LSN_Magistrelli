@@ -9,13 +9,13 @@ class Ising: public Metropolis {
     //thermodynamical state
     double Temp,Beta,J,h;
     //simulation
-    bool UseMetro;				//1 for true, 0 for false
+    bool UseMetro;				//if=1 Metropolis else Gibbs
     //parameters, observables
     const int iU=0,iC=1,iM=2,iX=3,n_Props=4;	//Energy, Heat capacity, Magnetization, Magnetic susceptibility index, Number of observables
 
     //Internal functions
     virtual void Move();
-    virtual double qRatio(const DataVett Snew, int ip) const;
+    virtual double qRatio(const DataVett Null, int ip) const;//here Null is useless
     void Gibbs(int o);
     virtual void Measure();
     virtual void Averages(int iblk, ofstream *OutRes);

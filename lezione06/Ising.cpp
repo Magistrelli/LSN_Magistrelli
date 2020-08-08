@@ -55,16 +55,17 @@ Ising::Ising(Random* rnd): Metropolis(rnd){//Prepare all stuff for simulation
 void Ising::Move(){
     int o;
     bool ifMove;
+    DataVett Null(0);
     for(int i=0; i<nSpin; ++i){
 	o=int(Rnd->Rannyu()*nSpin);	//Select spin randomly, 0<=o<=nSpin-1
 	if(UseMetro==1){		//Metropolis sampling
-	    ifMove=StdIfMove(*X,o);	//doesn't matter first argument
+	    ifMove=StdIfMove(Null,o);	//doesn't matter first argument
 	    if (ifMove==1) {S->SetComp(o,-1.*S->GetComp(o));}//spin o flipped
 	} else	{Gibbs(o);}		//Gibbs sampling
     }
 }
-//T(x|y)=T(y|x) => q=p(Xnew)/p(Xold)  (here Snew is useless)
-double Ising::qRatio(const DataVett Snew, int ip) const{
+//T(x|y)=T(y|x) => q=p(Xnew)/p(Xold)  (here Null is useless)
+double Ising::qRatio(const DataVett Null, int ip) const{
     double sm=S->GetComp(ip);	//ip=iflip
     double diffE=2.*sm*(J*(S->GetComp(Pbc(ip-1))+S->GetComp(Pbc(ip+1)))+h);
     return exp(-Beta*diffE);
@@ -87,7 +88,7 @@ void Ising::Measure(){
     double u=0.,m=0.;
     for (int i=0; i<nSpin; ++i){	//cycle over spins
 	u += -J*S->GetComp(i)*S->GetComp(Pbc(i+1)) - h/2.*(S->GetComp(i)+S->GetComp(Pbc(i+1)));
-	m+=S->GetComp(i);
+	m += S->GetComp(i);		//sum of the spins
     }
     Walker->SumComp(iU,u);
     Walker->SumComp(iC,u*u);
@@ -99,16 +100,15 @@ void Ising::Averages(int iblk, ofstream *OutRes){
     double eneAv,eneAv2,spinAv,spinAv2,a;
     DataVett stima(n_Props);
 
-    eneAv=Walker->GetComp(iU)/double(nStep);
+    eneAv=Walker->GetComp(iU)/double(nStep);	//total internal energy
     eneAv2=Walker->GetComp(iC)/double(nStep);
-    spinAv=Walker->GetComp(iM)/double(nStep);
+    spinAv=Walker->GetComp(iM)/double(nStep);	//total magnetization
     spinAv2=Walker->GetComp(iX)/double(nStep);
 
-    a=eneAv/double(nSpin);
-    stima.DefComp(iU,a);
+    stima.DefComp(iU,eneAv/double(nSpin));	//internal energy per spin
     stima.DefComp(iC,Beta*Beta*(eneAv2-eneAv*eneAv)/double(nSpin));
     a=spinAv/double(nSpin);
-    stima.DefComp(iM,a);
+    stima.DefComp(iM,a);			//magnetization per spin
     stima.DefComp(iX,Beta*(spinAv2/double(nSpin)-a*a));
 
     DoAverages(stima,iblk);

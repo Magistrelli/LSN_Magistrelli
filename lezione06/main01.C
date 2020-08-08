@@ -36,7 +36,7 @@ Test.DoSampling(Null,Null[0],0);
 nameFile=new string(*namefolder+"/config."+*metro+"."+to_string(atoi(argv[1]))+".final");
 cout << "Print final configuration to file " << *nameFile << endl << endl;
 OutFinal.open(*nameFile);
-Test.ConfFinal(OutFinal);
+Test.ConfFinal(OutFinal);	//save final config
 OutFinal.close();
 
 OutRes[0].open(*namefolder+"/output."+*metro+".ene."+to_string(atoi(argv[2])),ios::app);
