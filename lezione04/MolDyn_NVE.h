@@ -38,6 +38,7 @@ class MolDyn: public Experiment {
     //functions
     int GetNBins() const	{return nBins;}
     double GetBinWidth() const	{return BinSize;}
+    int Get_iGr() const		{return iGr;}
     void Restart();			//restart simulation for warm-up
     void BoxScale()	{*X/=Box;}	//X in box scale
     void ConfFinalPlus() const;		//Write final configs, now and old

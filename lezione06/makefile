@@ -6,7 +6,7 @@ CFLAGS = -Wall -O3 --std=c++11
 	g++ -c $< ${CFLAGS}
 
 main01.x: main01.C ${LIBS2}
-	g++ $^ -o $@
+	g++ $^ -o $@  ${CFLAGS}
 
 clear:
 	rm *.o *~
