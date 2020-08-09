@@ -75,7 +75,7 @@ double CanonicEns::qRatio(const DataVett Xnew, int ip) const{
 }
 
 
-//one step of Markov Chain
+//one step of Markov Chain, try to change nPart random particles
 void CanonicEns::Move(){
     int o;
     DataVett Xnew(DimSp);
@@ -91,7 +91,7 @@ void CanonicEns::Move(){
 void CanonicEns::Measure(){
     double dx,dr,bin_m,v=0.,w=0.;
     for (int i=0; i<nPart-1; ++i){	//cycle over pairs of particles
-      for (int j=i+1; j<nPart; ++j){
+      for (int j=i+1; j<nPart; ++j){	//j>i
 	dr=0.;
 	for(int k=0; k<DimSp; ++k){	//distance i-j in pbc
 	    dx=Pbc(X->GetComp(DimSp*i+k)-X->GetComp(DimSp*j+k));
@@ -99,9 +99,12 @@ void CanonicEns::Measure(){
 	}
 	dr=sqrt(dr);
 
-	for(int ibin=0; ibin<nBins; ++ibin){//update of the histogram of g(r)
+	for(int ibin=nBins-1; ibin>=0; --ibin){//update of the histogram of g(r)
 	    bin_m=ibin*BinSize;		//bin's left extreme
-	    if((dr>bin_m)&(dr<bin_m+BinSize))	{Walker->SumComp(iGr+ibin,2);}
+	    if((dr>bin_m)&&(dr<bin_m+BinSize)){
+	      Walker->SumComp(iGr+ibin,2);
+	      ibin=-1;			//exit if bin finded
+	    }
 	}
 	if(dr<Rcut){		//contribution to energy and virial
 	    v+=1./pow(dr,12)-1./pow(dr,6);
@@ -143,7 +146,6 @@ void CanonicEns::Averages(int iblk, ofstream *OutRes){
     if(iblk==1)	{OutRes[iGr] << setw(wd) << "block #" << setw(2*wd) << "bins" << endl << endl;}
     OutRes[iGr]<< setw(wd) << iblk << setw(2*wd);
     for(int i=0; i<nBins; i++)	{OutRes[iGr]<< stima.GetComp(iGr+i) << setw(wd);}
-//  for(int i=0; i<nBins; i++)	{OutRes[iGr]<< Err.GetComp(iGr+i) << setw(wd);}
     OutRes[iGr] << endl;
 }
 

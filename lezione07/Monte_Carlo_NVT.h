@@ -19,14 +19,14 @@ class CanonicEns: public Metropolis {
     double BinSize;
 
     //Internal functions
-    virtual void WriteInstant(int istep, ofstream* OutRes) const;
+    virtual void WriteInstant(int istep, ofstream* OutRes) const;//called by InstantValues
     virtual void Move();
     virtual void Measure();
     virtual void Averages(int iblk, ofstream *OutRes);
     virtual double qRatio(const DataVett Xnew, int ip) const;
     double Pbc(const double r) const {return r-Box*rint(r/Box);}//side L=box
     void PrintInfo() const;
-    //Observables' values per particle
+    //Observables' values (Epot and Virial per particle)
     double Epot(const double v) const	{return v/double(nPart)+Vtail;}
     double Virial(const double w) const	{return w/double(nPart)+Ptail;}
     double Pressure(const double w) const{return Rho*Temp+(w+double(nPart)*Ptail)/Vol;}

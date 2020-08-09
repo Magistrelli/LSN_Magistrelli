@@ -152,7 +152,7 @@ void Experiment::DoSampling(ofstream* OutRes, ofstream& OutConf, int nnconf){
 }
 
 
-//Move particles for nBurn steps and write instant measure and single configurations for the first nobs obs
+//Move particles for nBurn steps and write instant measure for the first nobs obs every iout steps and single XYZ configurations every iconf steps
 void Experiment::InstantValues(ofstream* OutRes, int nobs, int iout, int iconf) {
     int nconf=1;
     DataVett Null(m_Props);

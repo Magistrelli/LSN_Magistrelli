@@ -1,4 +1,4 @@
 rm -rf results/*
 rm -rf *.out
-rm -rf frames/*
+for i in solid liquid gas; do rm -rf frames/i/*; done
 rm -rf finalConf/*

@@ -152,9 +152,12 @@ void MolDyn::Measure(){
 	}
 	dr = sqrt(dr);
 
-	for(int ibin=0; ibin<nBins; ++ibin){//update of the histogram of g(r)
+	for(int ibin=nBins-1; ibin>=0; --ibin){//update of the histogram of g(r)
 	    bin_m=ibin*BinSize;		//bin's left extreme
-	    if((dr>bin_m)&(dr<bin_m+BinSize))	{Walker->SumComp(iGr+ibin,2);}
+	    if((dr>bin_m)&&(dr<bin_m+BinSize)){
+	      Walker->SumComp(iGr+ibin,2);
+	      ibin=-1;			//exit if bin finded
+	    }
 	}
 	if(dr<Rcut)	{v+=1./pow(dr,12)-1./pow(dr,6);}//Potential energy
       }

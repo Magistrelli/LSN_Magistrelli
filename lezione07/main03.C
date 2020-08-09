@@ -28,7 +28,7 @@ for(int i=0; i<nRestart; i++){	//warm-up, convergence to equilibrium
 cout << endl;
 
 Results[igr].open("results/output."+*state+".gofr."+*nres+".NVE");
-Test.DoSampling(Results,Null,0);//run simulation
+Test.DoSampling(Results,Null,0);//run simulation, write only g(r)
 Results[igr].close();
 
 OutHisto.open("results/output."+ *state +".gave."+*nres+".NVE");

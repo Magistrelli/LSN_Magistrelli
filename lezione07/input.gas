@@ -1,10 +1,10 @@
 1.2
 108
 0.05
-5.
+6.
 10.
 20
-2500
+2000
 
   ReadInput >> temp;
   ReadInput >> npart;

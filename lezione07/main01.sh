@@ -1,5 +1,3 @@
-./start.sh
-
 for state in solid liquid gas
 do
 
@@ -8,10 +6,7 @@ do
 	echo
 	echo 'STARTING main01.x for the '$state' state'
 
-	#./start.sh without rm other states' output files
-	cp config.fcc config.0
-	cp seed.0 seed.in
-
+	./start.sh
 	cp input.$state input.dat
 	./main01.x $state
 

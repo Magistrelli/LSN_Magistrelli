@@ -1,13 +1,14 @@
 LSN_exercises_delivery
 
-Nelle cartelle delle singole lezioni possono comparire le seguenti librerie:
+Nelle cartelle delle singole lezioni possono comparire le seguenti librerie a oggetti:
     Vettore:	libreria personale per la creazione e l'utilizzo di vettori
     random:	per la generazione di numeri casuali, arricchita a partire da quella fornita sul sito Ariel
     Experiment:	contiene oggetti e metodi di base (alcuni virtuali) su cui si basano le successive librerie, più specifiche
     MolDyn_NVE:	libreria a oggetti sviluppata a partire dal codice fornito per simulazioni di MD
     Metropolis:	derivata da Experiment, contiene oggetti e metodi generici per analizzare sistemi sfruttando l'algoritmo di Metropolis
-    Hydrogen:	derivata da Metropolis, libreria a oggetti per la misura del raggio medio di un atomo di H
-    Ising:	derivata da Metropolis, libreria a oggetti per lo studio di un modello di Ising 1D
+    Hydrogen:	derivata da Metropolis per la misura del raggio medio di un atomo di H
+    Ising:	derivata da Metropolis per lo studio di un modello di Ising 1D
+    Monte_Carlo_NVT: derivata da Metropolis per lo studio MC di un ensamble canonico
 
 
 NOTA sull'implementazione del blocking method:
