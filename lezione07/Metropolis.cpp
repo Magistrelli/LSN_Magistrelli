@@ -4,7 +4,6 @@ Metropolis::Metropolis(): Experiment(),UseGauss(0) {}
 
 Metropolis::Metropolis(Random* rnd): Experiment(rnd),HNow(0),HNew(0),Beta(0) {
     UseGauss=0;			//default: uniform T
-    Ending=0;
 }
 
 //effective single step of Markov Chain, std move with uniform or Gaussian T
@@ -66,8 +65,7 @@ void Metropolis::SimAnnealing(const DataVett beta, const DataVett bStep){
 	Reset(1);		//reset accumulators
 	for(int istep=0; istep<bStep.GetComp(i); ++istep) {Move();}
 	PrintAcc();
-    }//now we are in the minimum region, we can do final blocking method meas:
-    Ending=1;
+    }//now we are in the minimum region, we can do final blocking method meas
     cout << endl << "Doing final SA exstimation:" << endl;
     DoSampling(Null,Null[0],0);
     cout << "  Acceptance: " << Acceptance();   

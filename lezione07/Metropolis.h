@@ -8,7 +8,6 @@ class Metropolis: public Experiment {
     protected:
     bool UseGauss;	//if 1 for Gaussian T, else uniform T (default)
     double HNow,HNew,Beta;//for Simulated Annealing, Energy saved for efficiency
-    bool Ending;	//if we are in the SA final part
     
     //Internal functions (config new and now differ for particle ip; ip=-1 if total different config)
     void StdMove(DataVett,int ip);//standard single step of Markov Chain

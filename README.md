@@ -9,6 +9,9 @@ Nelle cartelle delle singole lezioni possono comparire le seguenti librerie a og
     Hydrogen:	derivata da Metropolis per la misura del raggio medio di un atomo di H
     Ising:	derivata da Metropolis per lo studio di un modello di Ising 1D
     Monte_Carlo_NVT: derivata da Metropolis per lo studio MC di un ensamble canonico
+    VarMC:	derivata da Metropolis per lo studio di una particella quantistica 1D con metodo variazionale Monte Carlo
+    qmc1d.cpp:	libreria (dal sito del corso) che implementa gli algoritmi PIMC e PIGS
+
 
 
 NOTA sull'implementazione del blocking method:
@@ -30,3 +33,8 @@ Per studiare solo la specifica temperatura T_i = 1.5*i/20 + 0.5 si utilizzi il c
 I due restart_metro.sh e restart_gibbs.sh permettono, impostato correttamente il file di input, di rilanciare automaticamente più volte la simulazione a seguito di un lancio manuale di main01.x (non si può usare main01.sh, i file seed.out verrebbero sovrascritti, così come il file input.dat). Ogni iterazione del programma parte dai risultati di quella precedente e studia in automatico ilrange di temperature [0.5,2]. I file di output sono salvati per ogni step, ma le configurazioni finali vengono sovrascritte lasciando solo le ultime. Chiaramente il burn-in non viene rieseguito ogni volta.
 L'indice dei file di output è progressivo e indica il numero dell'iterazione del programma che ha generato i risultati.
 L'indice dei file di burn-in e dei file config rappresenta la temperatura corrisponde secondo la legge T_i = 1.5*i/20 + 0.5
+
+
+README lezione08:
+Per lanciare l'esercizio01 con i parametri ottimizzati (trovati dopo) './main01.x 0.8 0.62'
+Per esercizio03 compilare sia qmc1d.x sia qmc1d_const.x permette di ottenere tutti i risultati necessari al notebook con il solo comando './qmc1d.sh'
