@@ -11,6 +11,8 @@ Nelle cartelle delle singole lezioni possono comparire le seguenti librerie a og
     Monte_Carlo_NVT: derivata da Metropolis per lo studio MC di un ensamble canonico
     VarMC:	derivata da Metropolis per lo studio di una particella quantistica 1D con metodo variazionale Monte Carlo
     qmc1d.cpp:	libreria (dal sito del corso) che implementa gli algoritmi PIMC e PIGS
+    TSPpath:
+    GeneticTSP:
 
 
 
