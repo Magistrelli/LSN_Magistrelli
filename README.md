@@ -42,11 +42,10 @@ README lezione08:
 Per lanciare l'esercizio01 con i parametri ottimizzati (trovati nell'esecizio seguente) './main01.x 0.8 0.62'
 Per esercizio03 compilare sia qmc1d.x sia qmc1d_const.x permette di ottenere tutti i risultati necessari al notebook con il solo comando './qmc1d.sh'
 
-==============================================================================
+
 README lezione09:
-Il file di input per i casi a 32 e a 100 città può essere lasciato uguale, a meno di modificare appunto il numero di città e quello di cromosomi: per il primo caso ne bastano 1000, ma per il caso a 100 città serve una popolazione di 2000 cromosomi. Il file può essere lasciato inalterato (a meno del parametro specifico) passando tra i casi 'square' e 'circ'.
-I file di output vengono tutti nominati in modo automatico, ma fanno eccezione quelli di prova a singolo operatore di mutazione ('base') e a sole mutazioni (no crossover, 'mut'); per questi bisogna modificare manualmente sia il file di input sia i nomi di tutti i file di output
-==============================================================================
+Il file di input per i casi a 32 e a 100 città può essere lasciato uguale, a meno di modificare appunto il numero di città e quello di cromosomi: per il primo caso ne bastano 1000, ma per il secondo ne servono 2000. Il file può essere lasciato inalterato (a meno del parametro specifico) passando tra i casi 'square' e 'circ'.
+I file di output vengono tutti nominati in modo automatico, fatta eccezione per quelli di prova a singolo operatore di mutazione ('base') e a sole mutazioni (no crossover, 'mut'); per questi bisogna modificare manualmente sia il file di input sia i nomi di tutti i file di output.
 
 
 ==============================================================================
