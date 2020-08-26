@@ -17,7 +17,7 @@ void Path::RndGen() {
     int sort;
     for(int i=0; i<Ncit; ++i) {Gene[i]=i;}//crescent order (0,1,..,N-1)
     for(int i=1; i<Ncit; ++i){
-	sort=int(_rnd->Rannyu(1.,Ncit));
+	sort=int(_rnd->Rannyu(1.,Ncit));  //0 fixed
 	SwitchGene(i,sort);
     }
     Check();			//check if not errors
@@ -25,7 +25,7 @@ void Path::RndGen() {
 }
 
 
-//Switch of two random cities
+//Switch of two random cities, 0 is fixed
 void Path::MutSwitch() {
     int city1=int(_rnd->Rannyu(1.,Ncit));	//random selected city
     int city2=int(_rnd->Rannyu(1.,Ncit));	//the 1-st is excluded
@@ -35,7 +35,7 @@ void Path::MutSwitch() {
 
 //shift rnd #m of contiguous cities at rnd starting point ini at rnd dist n
 //0 must be fixed, so min and max value of m are [2,Ncit-2] (Ncit-1 would be all fixed)
-//rnd() is in [0,1), smaller p ->  bigger m -> operator less destructive
+//rnd() is in [0,1), smaller p -> bigger m -> operator less destructive
 //the m cities must be contiguous, so max value of ini is Ncit-m (no PBC)
 //fixed 0 destroy contiguity of the m cities if cicle, so not use PBC
 //if n<0 shitf at left, if n>0 shift at right, if n=0 sort again
@@ -52,9 +52,9 @@ void Path::MutShift(){
 //  cout<<endl<<"ini "<<ini<<" m "<<m<<" n "<<n<<endl; //usefull for check
 
     if(right) {
-	for(int j=0; j<n; ++j){
+	for(int j=0; j<n; ++j){	//shift all m of 1 pos n times
 	    for(int i=ini+m; i>ini; --i) {SwitchGene(i-1,i);}
-	    ini++;
+	    ini++;		//update first of m cities' pos
 	}
     } else {
 	for(int j=0; j>n; --j){
@@ -67,16 +67,16 @@ void Path::MutShift(){
 }
 
 //switch rnd #m of contiguous cities at rnd pos ini with other m at rnd pos n
-//rnd() is in [0,1), smaller p ->  bigger m -> operator less destructive
+//rnd() is in [0,1), smaller p -> bigger m -> operator less destructive
 void Path::MutPermut(){
     int m,ini,n;
     double const p=0.5;
 
     m=2+int((Ncit/2.-2)*pow(_rnd->Rannyu(),p));//need to switch, m < Ncit/2
     do {ini=int(_rnd->Rannyu(1.,Ncit-m+1));}//same thoughts as in MutShift
-    while((ini-1<m)&&(Ncit-(ini+m)<m));	//not enough contig cities to switch
+    while((ini-1<m)&&(Ncit-(ini+m)<m));	//not enough contig cities to switch (n could be 1)
     do {n=int(_rnd->Rannyu(1,Ncit-m+1));}//max pos has n+m=Ncit
-    while ((n>ini-m)&&(n<ini+m));	//other different m cities
+    while ((n>ini-m)&&(n<ini+m));	//completely different m cities
 //  cout<<endl<<"ini "<<ini<<" m "<<m<<" n "<<n<<endl; //usefull for check
 
     for(int i=0; i<m; ++i) {SwitchGene(ini+i,n+i);}
@@ -85,7 +85,7 @@ void Path::MutPermut(){
 
 //invert order of cities from rnd position ini to rnd pos end
 void Path::MutInvert(){
-    int ini=int(_rnd->Rannyu(1,Ncit-1));		//max is Ncit-2
+    int ini=int(_rnd->Rannyu(1,Ncit-1));	//max is Ncit-2
     int end=int(_rnd->Rannyu(ini+1,Ncit));	//at least 2 cities
 //  cout<<endl<<"ini "<<ini<<" end "<<end;	//usefull for check
     for(int i=0; i<=int((end-ini)/2.); ++i) {SwitchGene(ini+i,end-i);}
@@ -115,7 +115,7 @@ double Path::Distance(int i1, int i2) const{
 }
 
 
-//check if every city appears one and only one time
+//check if every city appears one and only one time and if chromosome start with 0
 void Path::Check() {
     int city;			//encountered city
     bool check[Ncit];
@@ -159,14 +159,14 @@ void Path::WriteStart(bool square, double box, string loc) const {
     WritePath(OutPath);
     OutPos.close();
 }
-//write best path in default file
+//write actual path in best path default file
 void Path::WriteBest(string loc) const {
-    ofstream OutPath;
-    OutPath.open("results/path"+loc+"best");
-    WritePath(OutPath);
-    OutPath.close();
+    ofstream OutBest;
+    OutBest.open("results/path"+loc+"best");
+    WritePath(OutBest);
+    OutBest.close();
 }
-//write path of 1-st chromosome
+//write actual path 
 void Path::WritePath(ofstream& OutPath) const {
     OutPath<<Loss<<endl<<endl;
     for(int i=0; i<Ncit; ++i){

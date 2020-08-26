@@ -1,6 +1,5 @@
 #include "random.h"
 #include "Vettore.h"
-#include <algorithm>	//random_shuffle
 #include <iomanip>
 
 #ifndef __TSPpath__
@@ -8,7 +7,7 @@
 
 #define Nspace 2	//cities on a plane
 
-class Path {
+class Path {		//base single chromosome stuff
 
     protected:
     int Ncit;		//#cities to visit (in Gene will be 0,1,..,Ncit-1)
@@ -28,7 +27,7 @@ class Path {
     void SwitchGene(int,int);	//switch two genes' values
     double Distance(int,int) const;//distance between two cities
     void RndGen();		//first generation random generated
-    void WritePath(ofstream&) const;//write path of 1-st chromosome
+    void WritePath(ofstream&) const;//write actual path
 
     public:
     //constructors
@@ -47,7 +46,7 @@ class Path {
     void Check();		//check if every city appears 1! time
     void LossCost();		//loss function (total distance) eval
     void WriteStart(bool,double,string) const;//starting path in default file
-    void WriteBest(string) const;//write best path in default file
+    void WriteBest(string) const;//write actual path in best path default file
 
 };
 

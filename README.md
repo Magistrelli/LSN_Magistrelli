@@ -12,7 +12,7 @@ Nelle cartelle delle singole lezioni possono comparire le seguenti librerie a og
     VarMC:	derivata da Metropolis per lo studio di una particella quantistica 1D con metodo variazionale Monte Carlo
     qmc1d.cpp:	libreria (dal sito del corso) che implementa gli algoritmi PIMC e PIGS
     TSPpath:	contiene oggetti e metodi di base per il TSP
-    GeneticTSP:	derivata da Metropolis e TSPpath, implementa la soluzione del TSP tramite Genetic Algorithm
+    GeneticTSP:	derivata da TSPpath, implementa la soluzione del TSP tramite Genetic Algorithm
     SimAnnTSP:	derivata da Metropolis e TSPpath, implementa la soluzione del TSP tramite Simulated Annealing
 
 
