@@ -11,7 +11,7 @@ Nelle cartelle delle singole lezioni possono comparire le seguenti librerie a og
     Monte_Carlo_NVT: derivata da Metropolis per lo studio MC di un ensamble canonico
     VarMC:	derivata da Metropolis per lo studio di una particella quantistica 1D con metodo variazionale Monte Carlo
     qmc1d.cpp:	libreria (dal sito del corso) che implementa gli algoritmi PIMC e PIGS
-    TSPpath:	contiene oggetti e metodi di base per il TSP
+    TSPpath:	contiene oggetti e metodi di base per descrivere un singolo cammino nel TSP
     GeneticTSP:	derivata da TSPpath, implementa la soluzione del TSP tramite Genetic Algorithm
     SimAnnTSP:	derivata da Metropolis e TSPpath, implementa la soluzione del TSP tramite Simulated Annealing
 
@@ -46,11 +46,11 @@ Per esercizio03 compilare sia qmc1d.x sia qmc1d_const.x permette di ottenere tut
 README lezione09:
 Il file di input per i casi a 32 e a 100 città può essere lasciato uguale, a meno di modificare appunto il numero di città e quello di cromosomi: per il primo caso ne bastano 1000, ma per il secondo ne servono 2000. Il file può essere lasciato inalterato (a meno del parametro specifico) passando tra i casi 'square' e 'circ'.
 I file di output vengono tutti nominati in modo automatico, fatta eccezione per quelli di prova a singolo operatore di mutazione ('base') e a sole mutazioni (no crossover, 'mut'); per questi bisogna modificare manualmente sia il file di input sia i nomi di tutti i file di output.
+I file chromo.* riportano le configurazioni finali ottenute nei vari casi per i singoli cromosomi, i file cities.*.pos le posizioni delle città, i file cities.*.start e path.*.best la lunghezza del cammino rispettivamente iniziale e finale e il cammino stesso, i file path.*.lenght la sequenza progressiva delle lunghezze del cammino migliore di ogni generazione.
 
 
 ==============================================================================
 README lezione10:
-Il file input.GA per i casi a 32 e a 100 città può essere lasciato uguale, a meno di modificare appunto il numero di città e quello di cromosomi: per il primo caso ne bastano 1000, ma per il caso a 100 città serve una popolazione di 2000 cromosomi. Il file input.SA è uguale nei due casi (a meno sempre di modificare il numero di città). Entrambi i file di input possono essere lasciati inalterati (a meno del parametro specifico) passando tra i casi 'square' e 'circ'.
+Stesse considerazioni della lezione09 per il file input.GA e stessa nomenclatura per i file di output. Il file input.SA è uguale nei due casi (a meno sempre di modificare il numero di città). Anche questo file può essere lasciato inalterato (a meno del parametro specifico) passando tra i casi 'square' e 'circ'.
 Prima di compilare 'main02.x' può essere necessario un 'module load <mpi_version>'; io ho usato <mpi_version> = mpi/mpich-3.2-x86_64.
-I file chromo.* riportano le configurazioni finali ottenute nei vari casi per i singoli cromosomi, i file cities.* e path.*.best la lunghezza del cammino rispettivamente iniziale e finale e il cammino stesso, i file path.*.lenght la sequenza progressiva delle lunghezze del cammino migliore di ogni generazione.
 ==============================================================================

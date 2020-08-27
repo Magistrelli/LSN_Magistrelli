@@ -212,15 +212,15 @@ void Population::Evolution() {
 void Population::Migration(int nnmig) {
     MPI_Status stat1,stat2,stat3,stat4;
     MPI_Request req1,req2,req3,req4;
-    int *mesg1=new int[Ncit],*mesg2=new int[Ncit];
-    double lMsg1,lMsg2;
+    int *mesg1=new int[Ncit],*mesg2=new int[Ncit];	//msg is 1st chromosome of the continents
+    double lMsg1,lMsg2;					//and its lenght
     int tag[4];
     for(int i=0; i<4; ++i) {tag[i]=ParSize+4*nnmig+i;}	//different from ic of Evol and different every time
     int core[ParSize],sort,appo;
 
     if(ParRank==0){
       for(int i=0; i<ParSize; ++i) {core[i]=i;}	//crescent order
-      for(int i=0; i<ParSize; ++i){		//random migration
+      for(int i=0; i<ParSize; ++i){		//random permutation for random migration
 	sort=int(Rnd->Rannyu(0.,ParSize));
 	appo=core[i];
 	core[i]=core[sort];
@@ -229,7 +229,7 @@ void Population::Migration(int nnmig) {
     }
     MPI_Bcast(core,ParSize,MPI_INTEGER,0,MPI_COMM_WORLD);
     
-    for(int ir=1; ir<ParSize; ir+=2){	//not last rank if ParSize is odd
+    for(int ir=1; ir<ParSize; ir+=2){	//run over couple of cores, not last rank if ParSize is odd
       if(ParRank==core[ir]){
 	for(int ic=0; ic<Ncit; ++ic) {mesg1[ic]=Chr[0]->GetGene(ic);}
 	MPI_Isend(&mesg1[0],Ncit,MPI_INTEGER,core[ir-1],tag[0],MPI_COMM_WORLD,&req1);
@@ -238,10 +238,10 @@ void Population::Migration(int nnmig) {
 	MPI_Isend(&lMsg1,1,MPI_DOUBLE_PRECISION,core[ir-1],tag[2],MPI_COMM_WORLD,&req3);
 	MPI_Irecv(&lMsg2,1,MPI_DOUBLE_PRECISION,core[ir-1],tag[3],MPI_COMM_WORLD,&req4);
 
-	MPI_Wait(&req2,&stat2);
+	MPI_Wait(&req2,&stat2);		//wait new 1st chromo
 	for(int ic=0; ic<Ncit; ++ic) {Chr[0]->SetGene(ic,mesg2[ic]);}
-	MPI_Wait(&req4,&stat4);
-	Chr[0]->SetLoss(lMsg2);
+	MPI_Wait(&req4,&stat4);		//and its lenght
+	Chr[0]->SetLoss(lMsg2);		//overwrite it
       } 
       else if(ParRank==core[ir-1]){
 	MPI_Irecv(&mesg1[0],Ncit,MPI_INTEGER,core[ir],tag[0],MPI_COMM_WORLD,&req1);
@@ -251,9 +251,9 @@ void Population::Migration(int nnmig) {
 	lMsg2=Chr[0]->GetLoss();
 	MPI_Isend(&lMsg2,1,MPI_DOUBLE_PRECISION,core[ir],tag[3],MPI_COMM_WORLD,&req4);
 
-	MPI_Wait(&req1,&stat1);
+	MPI_Wait(&req1,&stat1);		//wait new 1st chromo (here all ir-1's Isend are already done)
 	for(int ic=0; ic<Ncit; ++ic) {Chr[0]->SetGene(ic,mesg1[ic]);}
-	MPI_Wait(&req3,&stat3);
+	MPI_Wait(&req3,&stat3);		//and its lenght
 	Chr[0]->SetLoss(lMsg1);
       }
     }
