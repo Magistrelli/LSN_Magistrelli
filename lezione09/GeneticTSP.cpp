@@ -238,7 +238,7 @@ void Population::Migration(int nnmig) {
 	MPI_Isend(&lMsg1,1,MPI_DOUBLE_PRECISION,core[ir-1],tag[2],MPI_COMM_WORLD,&req3);
 	MPI_Irecv(&lMsg2,1,MPI_DOUBLE_PRECISION,core[ir-1],tag[3],MPI_COMM_WORLD,&req4);
 
-	MPI_Wait(&req2,&stat2);		//wait new 1st chromo
+	MPI_Wait(&req2,&stat2);		//wait new 1st chromo (all communications here are non-blocking)
 	for(int ic=0; ic<Ncit; ++ic) {Chr[0]->SetGene(ic,mesg2[ic]);}
 	MPI_Wait(&req4,&stat4);		//and its lenght
 	Chr[0]->SetLoss(lMsg2);		//overwrite it

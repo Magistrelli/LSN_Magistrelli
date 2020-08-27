@@ -1,0 +1,9 @@
+10000
+32
+1
+1.
+
+  ReadInput >> max #steps without improving best path;
+  ReadInput >> ncities;
+  ReadInput >> square;
+  ReadInput >> box;

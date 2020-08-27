@@ -1,0 +1,23 @@
+1000
+20
+100
+2000
+0
+1.
+0.85
+0.03
+0.06
+0.08
+0.1
+
+  ReadInput >> max #gen without improving;
+  ReadInput >> Nmigr;
+  ReadInput >> ncities;
+  ReadInput >> nchromosomes;
+  ReadInput >> square;
+  ReadInput >> box;
+  ReadInput >> crossover probabiliy;
+  ReadInput >> single switch mutation operator prob;
+  ReadInput >> shift mutation operator prob;
+  ReadInput >> multiple switch mutation operator prob;
+  ReadInput >> 4th mutation operator prob;
