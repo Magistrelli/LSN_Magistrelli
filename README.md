@@ -49,8 +49,7 @@ I file di output vengono tutti nominati in modo automatico, fatta eccezione per 
 I file chromo.* riportano le configurazioni finali ottenute nei vari casi per i singoli cromosomi, i file cities.*.pos le posizioni delle città, i file cities.*.start e path.*.best la lunghezza del cammino rispettivamente iniziale e finale e il cammino stesso, i file path.*.lenght la sequenza progressiva delle lunghezze del cammino migliore di ogni generazione.
 
 
-==============================================================================
 README lezione10:
-Stesse considerazioni della lezione09 per il file input.GA e stessa nomenclatura per i file di output. Il file input.SA è uguale nei due casi (a meno sempre di modificare il numero di città). Anche questo file può essere lasciato inalterato (a meno del parametro specifico) passando tra i casi 'square' e 'circ'.
+Stesse considerazioni della lezione09 per il file input.GA, ma ora per il caso circ a 100 città si riduca anche il numero di generazioni tra due migrazioni successive da 20 a 10. La nomenclatura per i file di output è la stessa.
+Il file input.SA è uguale nei due casi (a meno sempre di modificare il numero di città). Anche questo file può essere lasciato inalterato (a meno del parametro specifico) passando tra i casi 'square' e 'circ'.
 Prima di compilare 'main02.x' può essere necessario un 'module load <mpi_version>'; io ho usato <mpi_version> = mpi/mpich-3.2-x86_64.
-==============================================================================

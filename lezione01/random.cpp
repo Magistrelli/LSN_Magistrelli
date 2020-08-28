@@ -24,7 +24,7 @@ void Random::SetRandom(string fPrimes, string fSeed){
 
     ifstream inputPrimes(fPrimes);
     if (inputPrimes.is_open()){
-	for(int i=0; i<ParSize; ++i) {inputPrimes >> p1[i] >> p2[i];}
+	for(int i=0; i<ParSize; ++i) {inputPrimes >> p1[i] >> p2[i];}	//all cores charge read ParSize seeds
     } else cerr << "PROBLEM: Unable to open " << fPrimes << endl;
     inputPrimes.close();
 
@@ -34,7 +34,7 @@ void Random::SetRandom(string fPrimes, string fSeed){
 	    inputSeed >> property;
 	    if(property=="RANDOMSEED"){
 		inputSeed >> s[0] >> s[1] >> s[2] >> s[3];
-		SetRandom(s,p1[ParRank],p2[ParRank]);
+		SetRandom(s,p1[ParRank],p2[ParRank]);			//different for each core
 	    }
 	}
 	inputSeed.close();

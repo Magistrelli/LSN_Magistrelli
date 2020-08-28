@@ -41,7 +41,7 @@ for(int iphase=0; iphase<nphases; ++iphase){	//T-unif phases
     totNbeta+=nbeta[iphase];
     Tmax=Tmin[iphase];				//new Tmax
 }
-beta.DefComp(totNbeta,1./Tmin[nphases-1]);
+beta.DefComp(totNbeta,1./Tmin[nphases-1]);	//last beta
 bStep.DefComp(totNbeta,nbstep[nphases-1]);
 
 cout<<endl;

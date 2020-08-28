@@ -11,7 +11,7 @@ MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 //Variables
 Random* rnd = new Random();
 rnd->SetParallel(size,rank);
-rnd->SetRandom("Primes","seed.in");	//initialization parallel random_gen
+rnd->SetRandom("Primes","seed.in");	//parallel initialization
 Population Pop(rnd,size,rank);
 
 //simulation
