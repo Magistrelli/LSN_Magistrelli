@@ -15,7 +15,7 @@ rnd->SetRandom("Primes","seed.in");	//parallel initialization
 Population Pop(rnd,size,rank);
 
 //simulation
-Pop.Evolution();			//comment if mutation check
+Pop.Evolution();
 cout<<endl;
 
 MPI_Finalize();
